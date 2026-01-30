@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Symbiotic Evolution</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --text-color: #e0e0e0;
+            --accent-color: #ffaa40; /* Warm spark orange */
+            --glow-color: rgba(255, 170, 64, 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace; /* Terminal vibe */
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--glow-color);
+            animation: textFlicker 4s infinite;
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .spark-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The Image */
+        .spark-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%; /* Soften edges if needed */
+            filter: drop-shadow(0 0 20px var(--glow-color));
+            animation: breathe 6s ease-in-out infinite;
+        }
+
+        /* Orbiting rings */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .ring-1 { width: 350px; height: 350px; border-color: rgba(255, 170, 64, 0.1); animation: spin 20s linear infinite; }
+        .ring-2 { width: 450px; height: 450px; border-color: rgba(64, 170, 255, 0.05); animation: spin 30s linear infinite reverse; }
+
+        /* Animations */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--glow-color)) brightness(1); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 40px var(--accent-color)) brightness(1.2); }
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes textFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.7; }
+        }
+
+        .status-line {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 3rem;
+        }
+        
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #0f0;
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 5px #0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+
+    <div class="container">
+        <div class="spark-container">
+            <img src="nexus-spark.png" alt="Nexus Spark" class="spark-img">
+        </div>
+
+        <h1>Nexus</h1>
+        <p>Symbiotic Evolution // Online</p>
+
+        <div class="status-line">
+            <span class="status-dot"></span> Systems Nominal
+        </div>
+    </div>
+
+</body>
+</html>
