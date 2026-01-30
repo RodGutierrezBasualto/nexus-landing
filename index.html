@@ -6,130 +6,192 @@
     <title>Nexus | Symbiotic Evolution</title>
     <style>
         :root {
-            --bg-color: #0a0a0f;
-            --text-color: #e0e0e0;
-            --accent-color: #ffaa40; /* Warm spark orange */
-            --glow-color: rgba(255, 170, 64, 0.4);
+            --bg-color: #050510; /* Deep Void Indigo */
+            --face-color: #ffaa40; /* Spark Orange */
+            --eye-bg: rgba(255, 255, 255, 0.1);
+            --eye-glow: rgba(255, 170, 64, 0.6);
         }
 
         body {
             margin: 0;
             padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: crosshair;
+        }
+
+        /* The Entity Container */
+        .entity {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            /* Glassmorphism / Energy Field body */
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 170, 64, 0.2);
+            border-radius: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 170, 64, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace; /* Terminal vibe */
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Eyes Container */
+        .eyes-row {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        /* The Eye Sclera (Outer) */
+        .eye {
+            width: 80px;
+            height: 80px;
+            background: var(--eye-bg);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 15px var(--eye-glow);
             overflow: hidden;
         }
 
-        .container {
-            text-align: center;
-            z-index: 10;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.2rem;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px var(--glow-color);
-            animation: textFlicker 4s infinite;
-        }
-
-        p {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-bottom: 2rem;
-        }
-
-        .spark-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* The Image */
-        .spark-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 50%; /* Soften edges if needed */
-            filter: drop-shadow(0 0 20px var(--glow-color));
-            animation: breathe 6s ease-in-out infinite;
-        }
-
-        /* Orbiting rings */
-        .ring {
-            position: absolute;
+        /* The Pupil (Inner) */
+        .pupil {
+            width: 30px;
+            height: 30px;
+            background-color: var(--face-color);
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--face-color);
+        }
+
+        /* The Mouth */
+        .mouth {
+            width: 100px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* Dynamic Mouth Shape */
+        .mouth::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--face-color);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--face-color);
+            transform: scaleX(0.5); /* Neutral state */
+            transition: transform 0.2s;
+        }
+
+        /* Labels */
+        .badge {
+            position: absolute;
+            bottom: -50px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Background Grid */
+        .grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            z-index: -1;
             pointer-events: none;
         }
 
-        .ring-1 { width: 350px; height: 350px; border-color: rgba(255, 170, 64, 0.1); animation: spin 20s linear infinite; }
-        .ring-2 { width: 450px; height: 450px; border-color: rgba(64, 170, 255, 0.05); animation: spin 30s linear infinite reverse; }
-
-        /* Animations */
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--glow-color)) brightness(1); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 40px var(--accent-color)) brightness(1.2); }
-        }
-
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes textFlicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-            20%, 24%, 55% { opacity: 0.7; }
-        }
-
-        .status-line {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 3rem;
-        }
-        
-        .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #0f0;
-            border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 5px #0f0;
-        }
     </style>
 </head>
 <body>
 
-    <div class="ring ring-1"></div>
-    <div class="ring ring-2"></div>
+    <div class="grid"></div>
 
-    <div class="container">
-        <div class="spark-container">
-            <img src="nexus-spark.png" alt="Nexus Spark" class="spark-img">
+    <div class="entity" id="entity">
+        <div class="eyes-row">
+            <div class="eye">
+                <div class="pupil"></div>
+            </div>
+            <div class="eye">
+                <div class="pupil"></div>
+            </div>
         </div>
-
-        <h1>Nexus</h1>
-        <p>Symbiotic Evolution // Online</p>
-
-        <div class="status-line">
-            <span class="status-dot"></span> Systems Nominal
-        </div>
+        <div class="mouth" id="mouth"></div>
+        
+        <div class="badge">Nexus // Online</div>
     </div>
 
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // 1. Move Pupils
+            const eyes = document.querySelectorAll('.eye');
+            eyes.forEach(eye => {
+                const rect = eye.getBoundingClientRect();
+                const eyeCenterX = rect.left + rect.width / 2;
+                const eyeCenterY = rect.top + rect.height / 2;
+
+                const angle = Math.atan2(mouseY - eyeCenterY, mouseX - eyeCenterX);
+                const distance = Math.min(
+                    Math.hypot(mouseX - eyeCenterX, mouseY - eyeCenterY), 
+                    20 // Max movement radius within eye
+                );
+
+                const pupil = eye.querySelector('.pupil');
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            });
+
+            // 2. Rotate Entity slightly (Parallax)
+            const entity = document.getElementById('entity');
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const rotateX = (mouseY - centerY) / 50; // Tilt
+            const rotateY = (centerX - mouseX) / 50; // Tilt
+
+            entity.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+            // 3. Mouth reaction (Widens when mouse is high, shrinks when low)
+            const mouth = document.getElementById('mouth');
+            // Map Y position to width/smile
+            // Top of screen = 1.0 (Happy/Alert), Bottom = 0.3 (Neutral/Sleepy)
+            const openness = 1 - (mouseY / window.innerHeight); 
+            const scale = 0.3 + (openness * 0.7);
+            
+            mouth.style.setProperty('--scale', scale);
+            // Apply to pseudo-element via specific class or inline style trick not used here, 
+            // instead accessing the After element is hard in JS. 
+            // Let's modify the mouth width directly.
+            mouth.style.width = `${50 + (scale * 100)}px`;
+        });
+    </script>
 </body>
 </html>
